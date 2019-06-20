@@ -1,0 +1,10 @@
+# Java実行
+
+## 通常
+java -jar sumOrderCountbatch-0.0.1-SNAPSHOT.jar
+
+## アプリ引数あり
+java -jar sumOrderCountbatch-0.0.1-SNAPSHOT.jar jobNames=itemSumOrderCountTaskTaskJob
+
+## アプリ設定ファイル外だし
+java -jar -Dspring.config.location="./config/application.properties" sumOrderCountbatch-0.0.1-SNAPSHOT.jar

@@ -1,0 +1,11 @@
+#S3
+aws s3 cp s3://${S3_BUCKET}/ad/${TARGET_YEAR}/${TARGET_MOUNTH}/${TARGET_DATE}/*${TARGET_HOUR}*.tgz ./
+
+# gsutil
+gsutil ls gs://project_name/bucket_name
+gsutil ls gs://project_name/bucket_name/obj_name
+gsutil -m cp ./${gz_file} ${GS_BUKET}/${buyerid}/${mes_type}/
+
+# bigQuery
+bq mk new_dataset
+bq mk -t --schema 'logtype:INTEGER,unixtime:INTEGER' new_dataset.table
