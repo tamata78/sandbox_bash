@@ -3,4 +3,3 @@ awk '{sum=sum+$1}END{print sum}'
 
 # 文字列分割して、最後の要素を表示
 awk -F/ '{print $NF}'
-

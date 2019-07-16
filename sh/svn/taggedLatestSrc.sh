@@ -1,12 +1,22 @@
 #!/bin/bash
 
-# svn update Specified repo and its repo tagged
+# read brunch_info_conf file, remake tag
 
-WORK_ROOT=$1
-PROJ_NAME=$2
+while read line
+do
+  brunchInfo=( `echo $line | tr -s ',' ' '`)
+  TGT_ROOT=${brunchInfo[0]}
+  STG_NO=${brunchInfo[1]}
+  TGT_BRUNCH=${brunchInfo[2]}
 
-cd ${WORK_ROOT}/${PROJ_NAME}
+  TGT_TAG=${TGT_ROOT}/tags/STG${STG_NO} 
+  svn log ${TGT_TAG} | head -n 1
+  echo "----------------------------"
+  echo "DEL TARGET TAG: ${TGT_TAG}"
+  read -p "タグを削除しますか？ : ok? (y/N):" yn
+  case "$yn" in [yY]*) ;; *) echo "skipped." ; continue ;; esac
+  
+  svn del ${TGT_TAG}
+  svn copy ${TGT_ROOT}/branches/${TGT_BRUNCH} ${TGT_TAG}
 
-# remove already configured tags
-
-#svn remove
+done < ./tgt_brunch.conf
