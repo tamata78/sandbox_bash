@@ -4,3 +4,9 @@ case "$yn" in
   [yY]*) ;;
   *) echo "skipped." ; continue ;;
 esac
+
+# add multiple lines
+echo << EOS 
+aaa
+bbb
+EOS >> sample.txt
