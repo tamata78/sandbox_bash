@@ -116,3 +116,19 @@ say_hello () {
 }
 # 関数の呼び出し
 say_hello
+
+# 対話入力 ####################
+# y or n comunication process
+read -p "${X} : ok? (y/N):" yn
+case "$yn" in 
+  [yY]*) ;;
+  *) echo "skipped." ; continue ;;
+esac
+
+# 複数行入力 ####################
+# add multiple lines
+echo << EOS 
+aaa
+bbb
+EOS >> sample.txt
+
