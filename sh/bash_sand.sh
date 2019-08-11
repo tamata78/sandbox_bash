@@ -1,21 +1,21 @@
 #!/bin/bash
 
 # 引数  #####################
-#$0	スクリプトの名前
-#$1-9	スクリプトに指定された引数の値(数値は引数の位置)
-#$#	スクリプトに指定された引数の数
-#$*	スクリプトに指定された引数全部 "$*"の場合は "$1 $2..."
-#$@	スクリプトに指定された引数全部 "$@"の場合は "$1" "$2" ...
-#$?	直前のコマンドの終了ステータス
-#$$	カレントシェルのプロセスID
-#$!	直前のバックグランドジョブのプロセスID
-#$-	カレントシェルの動作オプション
+#$0  スクリプトの名前
+#$1-9  スクリプトに指定された引数の値(数値は引数の位置)
+#$#  スクリプトに指定された引数の数
+#$*  スクリプトに指定された引数全部 "$*"の場合は "$1 $2..."
+#$@  スクリプトに指定された引数全部 "$@"の場合は "$1" "$2" ...
+#$?  直前のコマンドの終了ステータス
+#$$  カレントシェルのプロセスID
+#$!  直前のバックグランドジョブのプロセスID
+#$-  カレントシェルの動作オプション
 
 # 配列 #####################
 ## 配列に指定文字列が存在するかチェック
 array=("one" "two" "three");
 word=$1
- 
+
 if ! `echo ${array[@]} | grep -q "$word"` ; then
     echo "値がありませんでした"
 fi
@@ -32,10 +32,17 @@ if [ -z $1 ]; then # 文字列長が 0 なら真
 
 if [ -n $1 ] && [ $1 != $OP_DATE ]; then # 複数条件
 
-# 変数
-str1 = "a" # 文字列結合
-str2 = "b"
+# 代入 #####################
+
+# 文字列結合
+str1 = "a"; str2 = "b"
 str = $str1$str2 # ab
+
+# 三項演算子もどき
+[ $foo -ge $bar ] && baz=0 || baz=1
+
+# 未定義時にデフォルト値を代入
+foo=${bar:-0}
 
 # ループ #####################
 
@@ -75,7 +82,7 @@ echo ${arr[0]}
 echo ${arr[1]}
 echo ${arr[2]}
 
-# ファイル #####################
+# ファイル・ディレクトリ #####################
 ## 一行一行読み込み
 while read line
 do
@@ -87,13 +94,29 @@ do
   echo $line
 done
 
-## ファイル1行1行を配列へ変換 
+## ファイル1行1行を配列へ変換
 list=(`cat test.txt|xargs`)
 
 ## 指定ディレクトリ以下にファイルが存在しないかどうか
 if [ "$(ls temp | wc -w)" = 0 ] ; then
     echo "no file"
 fi
+
+## shell実行ディレクトリ取得
+script_dir_path=$(dirname $(readlink -f $0))
+script_dir_path=$(dirname $(greadlink -f $0)) # case BSD or OSX
+
+## create tmpfile, tmpDir
+temp_file=$(mktemp)
+temp_dir=$(mktemp -d)
+
+# signal #####################
+
+trap "rm /tmp/temporary-file" 0 # comp the interruption process to the end
+trap "
+  mv /tmp/swap-file original-file
+  rm /tmp/target-file
+" 0 # exec multi cmd
 
 # case #####################
 ## 基本
@@ -120,14 +143,14 @@ say_hello
 # 対話入力 ####################
 # y or n comunication process
 read -p "${X} : ok? (y/N):" yn
-case "$yn" in 
+case "$yn" in
   [yY]*) ;;
   *) echo "skipped." ; continue ;;
 esac
 
 # 複数行入力 ####################
 # add multiple lines
-echo << EOS 
+echo << EOS
 aaa
 bbb
 EOS >> sample.txt
