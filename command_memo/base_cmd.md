@@ -5,6 +5,7 @@ souce config
 # duplicate line check
 sort file.txt | uniq -d
 
+<<<<<<< HEAD
 # OSバージョン・アーキ確認
 ```
 # centos
@@ -19,3 +20,10 @@ Linux version 4.9.184-linuxkit (root@a8c33e955a82) (gcc version 8.3.0 (Alpine 8.
 $ arch
 X86_64
 ```
+=======
+# del all space
+tr -d ' '
+
+# uniq count
+sort file | uniq -c
+>>>>>>> 910f68d59b54eea7fa7f97d5c5e8ca340149c329
