@@ -67,6 +67,13 @@ for file in `find * -type f | grep ${TARGET_FILE_DATE}`; do
   echo "$file"
 done
 
+## 検索ファイル名のループ
+for i in `find /usr/local/tomcat/App/WEB-INF/lib -name "*.jar" -print`;
+do
+  CLASSPATH="$CLASSPATH：$i"
+  export CLASSPATH
+done
+
 ## カンマ区切り文字列のループ処理
 IFS=,
 hoge="a,b,c,d"
