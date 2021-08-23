@@ -32,6 +32,14 @@ if [ -z $1 ]; then # 文字列長が 0 なら真
 
 if [ -n $1 ] && [ $1 != $OP_DATE ]; then # 複数条件
 
+if [ $# == 0 ]; then usage; fi # 引数なしの婆愛
+function usage()
+{
+ cat <<EOM
+Required arguments:
+    -f | --file       実行するファイル
+EOM
+}
 # 代入 #####################
 
 # 文字列結合
@@ -152,6 +160,7 @@ esac
 case "$var" in
   "yes" | "Yes" | "YES" ) echo "イエスが入力されました" ;;
   [nN]o | "NO" ) echo "ノーが入力されました" ;;
+  -f|--file) echo "ファイルが指定されました" ;;
   * ) echo "イエスでもノーでもありません" ;;
 esac
 
@@ -176,4 +185,3 @@ echo << EOS
 aaa
 bbb
 EOS >> sample.txt
-
